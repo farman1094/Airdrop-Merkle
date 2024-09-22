@@ -10,3 +10,4 @@ contract Bagel is ERC20, Ownable {
 
     }
 }
+
