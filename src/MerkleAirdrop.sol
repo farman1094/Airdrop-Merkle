@@ -47,4 +47,8 @@ contract MerkleAirdrop {
     function getAirDropToken() external view returns (IERC20) {
         return i_airDropToken;
     }
+
+    function toCheckClaimed(address account) external view returns (bool) {
+        return s_hasClaimed[account];
+    }
 }
