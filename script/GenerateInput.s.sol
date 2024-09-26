@@ -18,9 +18,9 @@ contract GenerateInput is Script {
         types[0] = "address";
         types[1] = "uint";
         whitelist[0] = "0x264F7948c23da2233D3458F1B4e2554f0e56c9Ca";
-        whitelist[1] = "0x3c684e9D377F966f6794Da8b62ef54B1A41c75D1";
+        whitelist[1] = "0x701477467321474712bACA6779FE8926528B3c93";
         whitelist[2] = "0xCe424b67cD1e7dA659e00dEe1C088eC9F370113B";
-        whitelist[3] = "0xf6dBa02C01AF48Cf926579F77C9f874Ca640D91D";
+        whitelist[3] = "0x6CA6d1e2D5347Bfab1d91e883F1915560e09129D";
         count = whitelist.length;
         string memory input = _createJSON();
         // write to the output file the stringified output json tree dumpus 
