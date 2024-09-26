@@ -7,5 +7,6 @@ remappings = [
     "@OpenZeppelin/contracts/=lib/openzeppelin-contracts/contracts",
     "murky/=lib/murky/",
 ]
-fs_permission = [{ access = "read-write", path = "./" }]
+fs_permissions = [{ access = "read-write", path = "./" }]
+# fs_permission = [{ access = "read-write", path = "./targe" }]
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
