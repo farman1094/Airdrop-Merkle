@@ -12,7 +12,7 @@ contract MerkleAirdropTest is Test {
 MerkleAirdrop public airdrop;
 Bagel public token;
 
-bytes32 public  ROOT = 0x60e74b06a9c89088431304aafb0d418954050f1ef04edc5d77a5c57ab40c5955;
+bytes32 public  ROOT = 0x5397775ba0b7d0a4c0bbd97205a9b984693b88b9d8bdbd83805ab2d470a3805f;
 address user;
 uint256 userPrivKey;
 
