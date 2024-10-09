@@ -1,13 +1,15 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.24;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
+import {console} from "forge-std/console.sol";
+
 import {MerkleAirdrop} from "src/MerkleAirdrop.sol";
 import {Bagel} from "src/Bagel.sol";
 import {DeployMerkleAirdrop} from "script/DeployMerkleAirdrop.s.sol";
 
-contract MerkleAirdropTest is Test {
+contract MerkleAirdropTest is Test{
     MerkleAirdrop airdrop;
     Bagel token;
     DeployMerkleAirdrop deployer;
@@ -18,6 +20,7 @@ contract MerkleAirdropTest is Test {
 
     bytes32 proofOne = 0x7cedaefebc981c11f281ea3054c53d54c89caea638607b64875616560f8e914f;
     bytes32 proofTwo = 0xb621b06988cffb259d6651791d3ac26544384dd014be4e0090d23cd82166b732;
+    address public gasPayer;
     bytes32[] public PROOF = [proofOne, proofTwo];
     address user;
     uint256 userPrivKey;
@@ -26,18 +29,30 @@ contract MerkleAirdropTest is Test {
         deployer = new DeployMerkleAirdrop();
         (airdrop, token) = deployer.run();
         (user, userPrivKey) = makeAddrAndKey("user");
+        gasPayer = makeAddr("gasPayer");
     }
 
     function testUsersCanClaim() public {
-        vm.startPrank(user);
-        token.totalSupply();
         uint256 stratingBalance = token.balanceOf(user);
+        bytes32 digest = airdrop.getMessageHash(user, AMOUNT_T0_CLAIM);
 
-        airdrop.claim(user, AMOUNT_T0_CLAIM, PROOF);
+        // sign the message
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPrivKey, digest);
+
+        // To claim the airdrop for the user
+        vm.prank(gasPayer);
+        airdrop.claim(user, AMOUNT_T0_CLAIM, PROOF, v, r, s);
 
         uint256 expectedAmount = stratingBalance + AMOUNT_T0_CLAIM;
         uint256 actualAmount = token.balanceOf(user);
         assertEq(expectedAmount, actualAmount);
-        vm.stopPrank();
     }
+
+
+    // function testSomeThing() public {
+        // bytes32 digest = airdrop.getMessageHash(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 25000000000000000000);
+        // uint256 totalSupply = token.totalSupply();
+        // 
+        // 
+    // }
 }
