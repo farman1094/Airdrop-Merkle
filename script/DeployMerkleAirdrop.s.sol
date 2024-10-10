@@ -11,7 +11,8 @@ contract DeployMerkleAirdrop is Script {
     MerkleAirdrop airdrop;
     Bagel token;
 
-    bytes32 private s_merkleRoot = 0x5397775ba0b7d0a4c0bbd97205a9b984693b88b9d8bdbd83805ab2d470a3805f;
+    /** @dev Root need to update if data has updated */
+    bytes32 private s_merkleRoot = 0xb696ac9ecf49e0efb14edcad75ae292115739a8ec97d6e3fbf279668405f310b;
     uint256 private s_amountToMint = 4 * 25 * 1e18;
 
     function deployMerkleAirdrop() public returns (MerkleAirdrop, Bagel) {
