@@ -1,4 +1,12 @@
+## Address
+0: contract MerkleAirdrop 0x4FD97d5E290979bEA948684D12EC14aA08835CaB
+1: contract Bagel 0x22D6ddb2Cf99A815F7801EfB413f5074d4529EE6
+
+
+
 ## Foundry
+
+
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 

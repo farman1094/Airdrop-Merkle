@@ -5,6 +5,7 @@ pragma solidity ^0.8.24;
 import {ERC20} from "@OpenZeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@OpenZeppelin/contracts/access/Ownable.sol";
 
+// Ownable is a contract that allows the owner to execute certain functions
 contract Bagel is ERC20, Ownable {
     constructor() ERC20("Bagel", "BAGEL") Ownable(msg.sender) {}
 
