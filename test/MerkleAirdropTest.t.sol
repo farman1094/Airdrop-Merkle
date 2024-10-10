@@ -9,7 +9,7 @@ import {MerkleAirdrop} from "src/MerkleAirdrop.sol";
 import {Bagel} from "src/Bagel.sol";
 import {DeployMerkleAirdrop} from "script/DeployMerkleAirdrop.s.sol";
 
-contract MerkleAirdropTest is Test{
+contract MerkleAirdropTest is Test {
     MerkleAirdrop airdrop;
     Bagel token;
     DeployMerkleAirdrop deployer;
@@ -18,10 +18,8 @@ contract MerkleAirdropTest is Test{
     uint256 AMOUNT_T0_CLAIM = 25 * 1e18;
     uint256 AMOUNT_TO_MINT = AMOUNT_T0_CLAIM * 4;
 
-
     bytes32 proofOne = 0xd1445c931158119b00449ffcac3c947d028c0c359c34a6646d95962b3b55c6ad;
     bytes32 proofTwo = 0xb621b06988cffb259d6651791d3ac26544384dd014be4e0090d23cd82166b732;
-
 
     address public gasPayer;
     bytes32[] public PROOF = [proofOne, proofTwo];
@@ -50,6 +48,4 @@ contract MerkleAirdropTest is Test{
         uint256 actualAmount = token.balanceOf(user);
         assertEq(expectedAmount, actualAmount);
     }
-
-
 }
