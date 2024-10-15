@@ -7,24 +7,32 @@ import {Script} from "forge-std/Script.sol";
 import {MerkleAirdrop} from "src/MerkleAirdrop.sol";
 import {console} from "forge-std/console.sol";
 
+
+/**
+ * @dev 
+ * NOTE Things to keep in mind in order to work this correctly
+ * 1. Make sure to run the script/GenerateInput.s.sol script first (Chekcing the address available) 
+ * 2. Then we need to run script/GenerateInput.s.sol script first
+ * 3. The output file will be generated in /script/target/output.json
+ * 4. Then we need to run script/DeployMerkleAirdrop.s.sol script After confirming the ROOT @dev
+ * 4. Then we need to Update @dev- 
+ *      - proof according to the claimin address @param proof
+ *      - SIGNATURE of the claiming address signed with private key (DIGEST)
+ *      - update @param hex (which come here, make sure to remove the 0x)
+ * 5. Then we need to run script/Interact.s.sol script to claim. 
+ * NOTE Some useful commands in bottow working with cast 
+ */
 contract ClaimAirdrop is Script {
     error ClaimAirdropScript__InvalidSignatureLength();
-
-    /**
-     * @dev check or update the address as per usage
-     */
     address CLAIMING_ADDRESS = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
     uint256 CLAIMING_AMOUNT = 25 * 1e18;
 
-    bytes32 PROOF_ONE = 0xe876e703ac9dff4b8fb7416f3c78532786b7a80f536386df64c64a9191fa5406;
-    bytes32 PROOF_TWO = 0x81f0e530b56872b6fc3e10f8873804230663f8407e21cef901b8aeb06a25e5e2;
+    bytes32 PROOF_ONE = 0xd1445c931158119b00449ffcac3c947d028c0c359c34a6646d95962b3b55c6ad;
+    bytes32 PROOF_TWO = 0xb621b06988cffb259d6651791d3ac26544384dd014be4e0090d23cd82166b732;
 
     bytes32[] proof = [PROOF_ONE, PROOF_TWO];
 
-    bytes private SIGNATURE =
-        hex"f7ca7cdd06e2913a3cf3e80f599d5e377b2eabc8b263bb61e84750ec8b5f43684545429468f4335b14ed414f5aa4d7cfe951f2d0c6fc03fd7023fece9da2ee461c";
-    // bytes private SIGNATURE = hex"94132d5e64c585f8759af1ca4a3495199015524592898c38a377dc9ba642c43f4511753c0212474d1b034eeb26d4e0200fa22aea8161271df807f743be8976bb1c";
-    // 94132d5e64c585f8759af1ca4a3495199015524592898c38a377dc9ba642c43f4511753c0212474d1b034eeb26d4e0200fa22aea8161271df807f743be8976bb1c
+    bytes private SIGNATURE =hex"90af719cf760100338dee64bb83859f1bb9cbc4163bfb188806a3c5f4dc93109130a9695d9c0453d65144899b197fab9d33062f9c1bc7490846250c19e0b077c1c";
 
     function claimAirdrop(address airdrop) internal {
         vm.startBroadcast();
@@ -46,15 +54,15 @@ contract ClaimAirdrop is Script {
     }
 
     function run() external {
-        /**
-         * NOTE need to be fixed
-         */
-        /**
-         * @dev need to be update every time the contract is deployed. DevOps not working
-         */
-        // address getMostRecentDeployed = DevOpsTools.get_most_recent_deployment("MerkleAirdrop", block.chainid);
-        address getMostRecentDeployed = 0x261D8c5e9742e6f7f1076Fa1F560894524e19cad;
-        // address getMostRecentDeployed = 0x4FD97d5E290979bEA948684D12EC14aA08835CaB;
+        address getMostRecentDeployed = DevOpsTools.get_most_recent_deployment("MerkleAirdrop", block.chainid);
         claimAirdrop(getMostRecentDeployed);
     }
 }
+
+
+// forge script script/GenerateInput.s.sol:GenerateInput --rpc-url $ANVIL_RPC_URL --broadcast --private-key $ANVIL_PKEY
+// forge script script/MakeMerkle.s.sol:MakeMerkle --rpc-url $ANVIL_RPC_URL --broadcast --private-key $ANVIL_PKEY
+// forge script script/DeployMerkleAirdrop.s.sol:DeployMerkleAirdrop --rpc-url $ANVIL_RPC_URL --broadcast --private-key $ANVIL_PKEY
+// forge script script/Interact.s.sol:ClaimAirdrop --rpc-url $ANVIL_RPC_URL --broadcast --private-key $ANVIL_PKEY
+// cast call 0xcf27F781841484d5CF7e155b44954D7224caF1dD "getMessageHash(address,uint256)" 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 25000000000000000000 --rpc-url $ANVIL_RPC_URL 
+
